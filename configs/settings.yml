@@ -1,0 +1,12 @@
+api:
+  base_url: https://dataengineercaseapi-production.up.railway.app/
+  api_key:
+  limit: 1000
+
+catalog: flatpay_case
+
+schemas:
+  staging: staging
+  bronze: bronze
+  silver: silver
+  gold: gold

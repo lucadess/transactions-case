@@ -1,0 +1,12 @@
+tables:
+  customers:
+    table_name: customers
+    source_path: /Volumes/flatpay_case/staging/uploads/customers/
+
+  transactions:
+    table_name: transactions
+    source_path: /Volumes/flatpay_case/staging/uploads/transactions/
+
+  operation_status_code:
+    table_name: operation_status_code
+    source_path: /Volumes/flatpay_case/staging/uploads/operation_status_code/
