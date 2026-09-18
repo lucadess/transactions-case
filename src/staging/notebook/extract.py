@@ -38,7 +38,7 @@ api_key = dbutils.secrets.get(scope="flatpay-case", key="api-key")
 # COMMAND ----------
 
 settings = get_config(str(REPO_ROOT / "configs" / "settings.yml"))
-table = get_config(str(REPO_ROOT / "configs" / "staging" / "tables.yml"))["tables"][table_name]
+table = get_config(str(REPO_ROOT / "configs" / "staging" / "endpoints.yml"))["tables"][table_name]
 
 base_url = settings["api"]["base_url"]
 limit = settings["api"]["limit"]
