@@ -8,11 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 class APIClient:
-    def __init__(self, base_url: str, api_key: str, requests_per_minute: int):
+    def __init__(self, base_url: str, api_key: str, max_requests_per_minute: int):
         self.base_url = base_url
         self.api_key = api_key
-        self.requests_per_minute = requests_per_minute
-        self._min_interval = 60.0 / requests_per_minute
+        self.max_requests_per_minute = max_requests_per_minute
+        self._min_interval = 60.0 / max_requests_per_minute
         self._last_request_at: Optional[float] = None
 
     def fetch_page(self, endpoint: str, limit: int, offset: int) -> dict:

@@ -2,11 +2,14 @@ tables:
   customers:
     table_name: customers
     source_path: /Volumes/flatpay_case/staging/uploads/customers/
+    write_mode: overwrite
 
   transactions:
     table_name: transactions
     source_path: /Volumes/flatpay_case/staging/uploads/transactions/
+    write_mode: overwrite
 
   operation_status_code:
     table_name: operation_status_code
     source_path: /Volumes/flatpay_case/staging/uploads/operation_status_code/
+    write_mode: overwrite

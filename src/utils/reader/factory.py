@@ -1,11 +1,10 @@
 import os
 from pyspark.sql import SparkSession
-from .readers import CSVReader, JSONReader, Reader
+from .readers import JSONReader, Reader
 
 
 def get_reader(spark: SparkSession, source_path: str) -> Reader:
     readers = {
-        "csv": CSVReader,
         "json": JSONReader,
     }
 

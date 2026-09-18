@@ -21,13 +21,13 @@ REPO_ROOT = SRC_DIR.parent
 
 sys.path.append(str(SRC_DIR))
 
-from staging.ingest import ingest_table_to_volume
+from staging.extract import ingest_table_to_volume
 from utils.api_client import APIClient
 from utils.config_manager import get_config
 
 # COMMAND ----------
 
-dbutils.widgets.text("table_name", "table_name")
+dbutils.widgets.text("table_name", "")
 
 table_name = dbutils.widgets.get("table_name")
 

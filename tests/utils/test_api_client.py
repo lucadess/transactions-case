@@ -18,8 +18,8 @@ def _mock_response(status_code: int, payload: dict = None) -> MagicMock:
     return response
 
 
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_fetch_page_returns_parsed_json(mock_get, mock_sleep):
     payload = {"items": [{"id": 1}], "limit": 1000, "offset": 0, "total": 1}
     mock_get.return_value = _mock_response(200, payload)
@@ -35,9 +35,9 @@ def test_fetch_page_returns_parsed_json(mock_get, mock_sleep):
     )
 
 
-@patch("utils.api_client.time.monotonic", side_effect=count(0, 100))
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.monotonic", side_effect=count(0, 100))
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_retries_on_429_then_succeeds(mock_get, mock_sleep, mock_monotonic):
     payload = {"items": [], "limit": 1000, "offset": 0, "total": 0}
     mock_get.side_effect = [_mock_response(429), _mock_response(200, payload)]
@@ -50,8 +50,8 @@ def test_retries_on_429_then_succeeds(mock_get, mock_sleep, mock_monotonic):
     mock_sleep.assert_called_once_with(1.0)
 
 
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_retries_on_500_then_succeeds(mock_get, mock_sleep):
     payload = {"items": [], "limit": 1000, "offset": 0, "total": 0}
     mock_get.side_effect = [_mock_response(503), _mock_response(200, payload)]
@@ -63,9 +63,9 @@ def test_retries_on_500_then_succeeds(mock_get, mock_sleep):
     assert mock_get.call_count == 2
 
 
-@patch("utils.api_client.time.monotonic", side_effect=count(0, 100))
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.monotonic", side_effect=count(0, 100))
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_exponential_backoff_between_retries(mock_get, mock_sleep, mock_monotonic):
     mock_get.side_effect = [_mock_response(429), _mock_response(429), _mock_response(429), _mock_response(429)]
 
@@ -77,8 +77,8 @@ def test_exponential_backoff_between_retries(mock_get, mock_sleep, mock_monotoni
     assert sleep_calls == [1.0, 2.0, 4.0]
 
 
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_gives_up_after_max_retries(mock_get, mock_sleep):
     mock_get.side_effect = [
         _mock_response(500),
@@ -94,8 +94,8 @@ def test_gives_up_after_max_retries(mock_get, mock_sleep):
     assert mock_get.call_count == 4
 
 
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_non_retryable_error_raises_immediately(mock_get, mock_sleep):
     mock_get.return_value = _mock_response(404)
 
@@ -107,9 +107,9 @@ def test_non_retryable_error_raises_immediately(mock_get, mock_sleep):
     mock_sleep.assert_not_called()
 
 
-@patch("utils.api_client.time.monotonic")
-@patch("utils.api_client.time.sleep", return_value=None)
-@patch("utils.api_client.requests.get")
+@patch("utils.api_client.api_client.time.monotonic")
+@patch("utils.api_client.api_client.time.sleep", return_value=None)
+@patch("utils.api_client.api_client.requests.get")
 def test_throttles_between_requests(mock_get, mock_sleep, mock_monotonic):
     payload = {"items": [], "limit": 1000, "offset": 0, "total": 0}
     mock_get.return_value = _mock_response(200, payload)

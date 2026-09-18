@@ -2,7 +2,7 @@ import json
 import os
 from unittest.mock import MagicMock
 
-from staging.ingest import ingest_endpoint_to_volume
+from staging.extract import ingest_endpoint_to_volume
 from utils.api_client import APIClient
 
 
