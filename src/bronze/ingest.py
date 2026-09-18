@@ -20,6 +20,16 @@ def ingest_data(spark, table_name: str):
     reader = get_reader(spark, source_path)
     df = reader.read(spark)
     df = df.withColumn("ingestion_date", F.current_timestamp())
+    df = explode_json_array(df)
 
     writer = get_writer(spark, target_table, write_mode)
     writer.write(df)
+
+def explode_json_array(df):
+    """
+    Explodes the "items" array into one row per item, dropping the pagination
+    fields (limit/offset/total) and keeping only the item's own columns plus
+    ingestion_date.
+    """
+    df = df.withColumn("items", F.explode("items"))
+    return df.select("items.*", "ingestion_date")
