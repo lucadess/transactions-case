@@ -1,7 +1,9 @@
 api:
-  base_url: https://dataengineercaseapi-production.up.railway.app/
+  base_url: https://dataengineercaseapi-production.up.railway.app
   api_key:
   limit: 1000
+  max_requests_per_minute: 600
+
 
 catalog: flatpay_case
 

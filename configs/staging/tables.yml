@@ -1,0 +1,12 @@
+tables:
+  customers:
+    endpoint: /v1/customers
+    staging_path: /Volumes/flatpay_case/staging/uploads/customers/
+
+  transactions:
+    endpoint: /v1/transactions
+    staging_path: /Volumes/flatpay_case/staging/uploads/transactions/
+
+  operation_status_code:
+    endpoint: /v1/operation_status_code
+    staging_path: /Volumes/flatpay_case/staging/uploads/operation_status_code/
