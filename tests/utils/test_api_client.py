@@ -24,7 +24,7 @@ def test_fetch_page_returns_parsed_json(mock_get, mock_sleep):
     payload = {"items": [{"id": 1}], "limit": 1000, "offset": 0, "total": 1}
     mock_get.return_value = _mock_response(200, payload)
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     result = client.fetch_page("/v1/customers", limit=1000, offset=0)
 
     assert result == payload
@@ -42,7 +42,7 @@ def test_retries_on_429_then_succeeds(mock_get, mock_sleep, mock_monotonic):
     payload = {"items": [], "limit": 1000, "offset": 0, "total": 0}
     mock_get.side_effect = [_mock_response(429), _mock_response(200, payload)]
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     result = client.fetch_page("/v1/customers", limit=1000, offset=0)
 
     assert result == payload
@@ -56,7 +56,7 @@ def test_retries_on_500_then_succeeds(mock_get, mock_sleep):
     payload = {"items": [], "limit": 1000, "offset": 0, "total": 0}
     mock_get.side_effect = [_mock_response(503), _mock_response(200, payload)]
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     result = client.fetch_page("/v1/customers", limit=1000, offset=0)
 
     assert result == payload
@@ -69,7 +69,7 @@ def test_retries_on_500_then_succeeds(mock_get, mock_sleep):
 def test_exponential_backoff_between_retries(mock_get, mock_sleep, mock_monotonic):
     mock_get.side_effect = [_mock_response(429), _mock_response(429), _mock_response(429), _mock_response(429)]
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     with pytest.raises(requests.HTTPError):
         client.fetch_page("/v1/customers", limit=1000, offset=0)
 
@@ -87,7 +87,7 @@ def test_gives_up_after_max_retries(mock_get, mock_sleep):
         _mock_response(500),
     ]
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     with pytest.raises(requests.HTTPError):
         client.fetch_page("/v1/customers", limit=1000, offset=0)
 
@@ -99,7 +99,7 @@ def test_gives_up_after_max_retries(mock_get, mock_sleep):
 def test_non_retryable_error_raises_immediately(mock_get, mock_sleep):
     mock_get.return_value = _mock_response(404)
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret")
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=600)
     with pytest.raises(requests.HTTPError):
         client.fetch_page("/v1/customers", limit=1000, offset=0)
 
@@ -118,7 +118,7 @@ def test_throttles_between_requests(mock_get, mock_sleep, mock_monotonic):
     # so the client should sleep for the full min interval before it fires.
     mock_monotonic.side_effect = [0.0, 0.0, 0.0]
 
-    client = APIClient(base_url="https://api.example.com", api_key="secret", requests_per_minute=60)
+    client = APIClient(base_url="https://api.example.com", api_key="secret", max_requests_per_minute=60)
     client.fetch_page("/v1/customers", limit=1000, offset=0)
     client.fetch_page("/v1/customers", limit=1000, offset=1000)
 

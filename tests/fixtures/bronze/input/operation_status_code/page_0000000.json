@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"status_code_id": 2, "name": "Approved"},
+    {"status_code_id": 4, "name": "Declined"}
+  ],
+  "limit": 2,
+  "offset": 0,
+  "total": 2
+}

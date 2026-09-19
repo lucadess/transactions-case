@@ -151,11 +151,15 @@ activemq-data/
 .env
 .envrc
 .venv
+.venv-test/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# local PySpark/Delta warehouse created by ad-hoc local runs
+spark-warehouse/
 
 # Spyder project settings
 .spyderproject

@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"customer_id": 1, "merchant_id": "M1", "acquire": "AcqCo", "country": "DE", "created": "2026-01-01T00:00:00", "test_merchant": false, "vat_number": "DE123"},
+    {"customer_id": 2, "merchant_id": "M2", "acquire": "YYEcom", "country": "FR", "created": "2026-01-02T00:00:00", "test_merchant": true, "vat_number": "FR456"}
+  ],
+  "limit": 2,
+  "offset": 0,
+  "total": 4
+}

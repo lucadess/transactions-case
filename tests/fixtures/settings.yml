@@ -1,0 +1,7 @@
+catalog: spark_catalog
+
+schemas:
+  staging: staging
+  bronze: bronze
+  silver: silver
+  gold: gold

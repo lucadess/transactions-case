@@ -27,7 +27,7 @@ def _create_table_from_config(spark: SparkSession, table: str, table_config: dic
 
 
 def _escape(text: str) -> str:
-    return text.strip().replace("'", "''")
+    return text.strip().replace("'", "\\'")
 
 
 def apply_schema(df: DataFrame, columns) -> DataFrame:
