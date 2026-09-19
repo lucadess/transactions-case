@@ -1,8 +1,9 @@
 from datetime import datetime
+from decimal import Decimal
 
 from pyspark.sql.types import (
     BooleanType,
-    DoubleType,
+    DecimalType,
     LongType,
     StringType,
     StructField,
@@ -31,7 +32,7 @@ TRANSACTIONS_SCHEMA = StructType(
     [
         StructField("uuid", StringType()),
         StructField("payment_id", StringType()),
-        StructField("amount", DoubleType()),
+        StructField("amount", DecimalType(18, 2)),
         StructField("currency", StringType()),
         StructField("merchant_id", StringType()),
         StructField("operation_result_code", StringType()),
@@ -43,8 +44,8 @@ TRANSACTIONS_SCHEMA = StructType(
 )
 
 TRANSACTIONS_DATA = [
-    ("u1", "p1", 100.0, "USD", "M1", "00", 2, 1, "T1", datetime(2026, 1, 1, 10, 0, 0)),
-    ("u2", "p2", 50.0, "EUR", "M2", "00", 2, 1, "T2", datetime(2026, 1, 1, 11, 0, 0)),
+    ("u1", "p1", Decimal("100.57"), "USD", "M1", "00", 2, 1, "T1", datetime(2026, 1, 1, 10, 0, 0)),
+    ("u2", "p2", Decimal("50.00"), "EUR", "M2", "00", 2, 1, "T2", datetime(2026, 1, 1, 11, 0, 0)),
 ]
 
 OPERATION_STATUS_CODE_SCHEMA = StructType(
