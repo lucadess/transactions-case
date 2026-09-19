@@ -1,0 +1,63 @@
+tables:
+  transactions:
+    table_name: transactions
+    comment: >
+      Transaction-level fact table: operational, successful, non-ECOM
+      transactions from non-test merchants, with amounts converted to EUR.
+    write_mode: overwrite
+    columns:
+      - name: uuid
+        description: Unique identifier for the transaction operation event.
+        datatype: string
+        tags: [primary_key]
+      - name: payment_id
+        description: >
+          Reference id grouping related operations for a payment. Not
+          guaranteed to identify a single real-world payment on its own,
+          see README known data quirks.
+        datatype: string
+        tags: []
+      - name: merchant_id
+        description: Identifier of the merchant the transaction belongs to.
+        datatype: string
+        tags: []
+      - name: amount
+        description: Transaction amount in its original currency.
+        datatype: double
+        tags: []
+      - name: currency
+        description: ISO currency code of the transaction amount.
+        datatype: string
+        tags: []
+      - name: amount_eur
+        description: Transaction amount converted to EUR using the latest Frankfurter rate at run time.
+        datatype: double
+        tags: []
+      - name: operation_result_code
+        description: Result code returned by the payment provider for the operation.
+        datatype: string
+        tags: []
+      - name: operation_status_code
+        description: Status code of the operation, references operation_status_code.status_code_id.
+        datatype: bigint
+        tags: [foreign_key]
+      - name: operation_status_name
+        description: Human-readable name of the operation status.
+        datatype: string
+        tags: []
+      - name: provider_code
+        description: Identifier of the payment provider that processed the operation.
+        datatype: bigint
+        tags: []
+      - name: terminal_id
+        description: Identifier of the terminal where the transaction occurred.
+        datatype: string
+        tags: []
+      - name: timestamp
+        description: Timestamp when the operation occurred at the source.
+        datatype: timestamp
+        tags: []
+      - name: country
+        description: Country associated with the merchant's customer record.
+        datatype: string
+        tags: []

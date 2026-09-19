@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from utils.config_manager import get_config
-from utils.writer import get_writer
+from utils.writer import apply_schema, get_primary_key, get_writer
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -23,12 +23,3 @@ def clean_data(spark, table_name: str):
 
     writer = get_writer(spark, target_table, table["write_mode"], primary_key=primary_key, table_config=table)
     writer.write(df)
-
-
-def apply_schema(df, columns):
-    """Selects and casts each bronze column to the datatype declared for it in the table config."""
-    return df.select(*[df[col["name"]].cast(col["datatype"]).alias(col["name"]) for col in columns])
-
-
-def get_primary_key(columns):
-    return [col["name"] for col in columns if "primary_key" in col["tags"]]

@@ -28,3 +28,12 @@ def _create_table_from_config(spark: SparkSession, table: str, table_config: dic
 
 def _escape(text: str) -> str:
     return text.strip().replace("'", "''")
+
+
+def apply_schema(df: DataFrame, columns) -> DataFrame:
+    """Selects and casts each source column to the datatype declared for it in the table config."""
+    return df.select(*[df[col["name"]].cast(col["datatype"]).alias(col["name"]) for col in columns])
+
+
+def get_primary_key(columns):
+    return [col["name"] for col in columns if "primary_key" in col["tags"]]

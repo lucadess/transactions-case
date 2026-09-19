@@ -32,10 +32,6 @@ tables:
         description: VAT registration number of the customer.
         datatype: string
         tags: []
-      - name: ingestion_date
-        description: Timestamp when the record was ingested into the pipeline.
-        datatype: timestamp
-        tags: []
 
   transactions:
     table_name: transactions
@@ -85,10 +81,6 @@ tables:
         description: Timestamp when the operation occurred at the source.
         datatype: timestamp
         tags: []
-      - name: ingestion_date
-        description: Timestamp when the record was ingested into the pipeline.
-        datatype: timestamp
-        tags: []
 
   operation_status_code:
     table_name: operation_status_code
@@ -102,8 +94,4 @@ tables:
       - name: name
         description: Human-readable name of the operation status.
         datatype: string
-        tags: []
-      - name: ingestion_date
-        description: Timestamp when the record was ingested into the pipeline.
-        datatype: timestamp
         tags: []
