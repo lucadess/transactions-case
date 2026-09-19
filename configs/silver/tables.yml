@@ -1,0 +1,109 @@
+tables:
+  customers:
+    table_name: customers
+    comment: Customer master data ingested from the source API.
+    write_mode: overwrite
+    columns:
+      - name: customer_id
+        description: Unique identifier for the customer.
+        datatype: bigint
+        tags: [primary_key]
+      - name: merchant_id
+        description: Identifier of the merchant the customer is associated with.
+        datatype: string
+        tags: []
+      - name: acquire
+        description: Acquiring bank or payment acquirer for the customer.
+        datatype: string
+        tags: []
+      - name: country
+        description: Country associated with the customer.
+        datatype: string
+        tags: []
+      - name: created
+        description: Timestamp when the customer record was created at the source.
+        datatype: timestamp
+        tags: []
+      - name: test_merchant
+        description: Flag indicating whether the merchant is a test/sandbox account.
+        datatype: boolean
+        tags: []
+      - name: vat_number
+        description: VAT registration number of the customer.
+        datatype: string
+        tags: []
+      - name: ingestion_date
+        description: Timestamp when the record was ingested into the pipeline.
+        datatype: timestamp
+        tags: []
+
+  transactions:
+    table_name: transactions
+    comment: Transaction/payment operation events ingested from the source API.
+    write_mode: overwrite
+    columns:
+      - name: uuid
+        description: Unique identifier for the transaction operation event.
+        datatype: string
+        tags: [primary_key]
+      - name: payment_id
+        description: >
+          Reference id grouping related operations for a payment. Not
+          guaranteed to identify a single real-world payment on its own,
+          see README known data quirks.
+        datatype: string
+        tags: []
+      - name: amount
+        description: Transaction amount.
+        datatype: double
+        tags: []
+      - name: currency
+        description: ISO currency code of the transaction amount.
+        datatype: string
+        tags: []
+      - name: merchant_id
+        description: Identifier of the merchant the transaction belongs to.
+        datatype: string
+        tags: []
+      - name: operation_result_code
+        description: Result code returned by the payment provider for the operation.
+        datatype: string
+        tags: []
+      - name: operation_status_code
+        description: Status code of the operation, references operation_status_code.status_code_id.
+        datatype: bigint
+        tags: [foreign_key]
+      - name: provider_code
+        description: Identifier of the payment provider that processed the operation.
+        datatype: bigint
+        tags: []
+      - name: terminal_id
+        description: Identifier of the terminal where the transaction occurred.
+        datatype: string
+        tags: []
+      - name: timestamp
+        description: Timestamp when the operation occurred at the source.
+        datatype: timestamp
+        tags: []
+      - name: ingestion_date
+        description: Timestamp when the record was ingested into the pipeline.
+        datatype: timestamp
+        tags: []
+
+  operation_status_code:
+    table_name: operation_status_code
+    comment: Lookup table mapping operation status codes to their names.
+    write_mode: overwrite
+    columns:
+      - name: status_code_id
+        description: Unique identifier for the operation status code.
+        datatype: bigint
+        tags: [primary_key]
+      - name: name
+        description: Human-readable name of the operation status.
+        datatype: string
+        tags: []
+      - name: ingestion_date
+        description: Timestamp when the record was ingested into the pipeline.
+        datatype: timestamp
+        tags: []
