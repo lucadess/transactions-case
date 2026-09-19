@@ -33,4 +33,5 @@ class TransactionsGenerator(GoldGenerator):
 
         rates_df = self.spark.createDataFrame(list(fetch_eur_rates().items()), ["currency", "eur_rate"])
         df = df.join(rates_df, on="currency", how="inner")
-        return df.withColumn("amount_eur", F.col("amount") * F.col("eur_rate"))
+        df = df.withColumn("amount_eur", F.col("amount") * F.col("eur_rate"))
+        return df.withColumnRenamed("timestamp", "transaction_timestamp")

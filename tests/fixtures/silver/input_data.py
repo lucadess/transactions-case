@@ -35,8 +35,8 @@ TRANSACTIONS_SCHEMA = StructType(
 )
 
 TRANSACTIONS_DATA = [
-    ("u1", "p1", 100.0, "USD", "M1", "00", 2, 1, "T1", "2026-01-01T10:00:00"),
-    ("u1", "p1", 100.0, "USD", "M1", "00", 2, 1, "T1", "2026-01-01T10:00:00"),  # duplicate PK, should be deduped
+    ("u1", "p1", 100.567, "USD", "M1", "00", 2, 1, "T1", "2026-01-01T10:00:00"),  # amount should be rounded to 2dp
+    ("u1", "p1", 100.567, "USD", "M1", "00", 2, 1, "T1", "2026-01-01T10:00:00"),  # duplicate PK, should be deduped
     ("u2", "p2", 50.0, "EUR", "M2", "00", 2, 1, "T2", "2026-01-01T11:00:00"),
     (None, "p3", 20.0, "USD", "M1", "05", 2, 1, "T1", "2026-01-01T12:00:00"),  # null PK, should be dropped
 ]

@@ -1,8 +1,9 @@
 from datetime import datetime
+from decimal import Decimal
 
 from pyspark.sql.types import (
     BooleanType,
-    DoubleType,
+    DecimalType,
     LongType,
     StringType,
     StructField,
@@ -14,7 +15,7 @@ TRANSACTIONS_SCHEMA = StructType(
     [
         StructField("uuid", StringType()),
         StructField("payment_id", StringType()),
-        StructField("amount", DoubleType()),
+        StructField("amount", DecimalType(18, 2)),
         StructField("currency", StringType()),
         StructField("merchant_id", StringType()),
         StructField("operation_result_code", StringType()),
@@ -25,17 +26,18 @@ TRANSACTIONS_SCHEMA = StructType(
     ]
 )
 
-# u1: M1, non-ECOM, non-test, status=2, result="00" -> kept
+# u1: M1, non-ECOM, non-test, status=2, result="00" -> kept. amount=100.57 * eur_rate=0.9 = 90.513,
+#   which should round to 90.51 in the amount_eur decimal(18,2) column.
 # u2: M2 is ECOM ("YYEcom") -> excluded
 # u3: result code "05" (not "00") -> excluded
 # u4: status code 4 (not 2) -> excluded
 # u5: M3 is a test merchant -> excluded
 TRANSACTIONS_DATA = [
-    ("u1", "p1", 100.0, "USD", "M1", "00", 2, 1, "T1", datetime(2026, 1, 1, 10, 0, 0)),
-    ("u2", "p2", 50.0, "EUR", "M2", "00", 2, 1, "T2", datetime(2026, 1, 1, 11, 0, 0)),
-    ("u3", "p3", 20.0, "USD", "M1", "05", 2, 1, "T1", datetime(2026, 1, 1, 12, 0, 0)),
-    ("u4", "p4", 30.0, "USD", "M2", "00", 4, 1, "T3", datetime(2026, 1, 1, 13, 0, 0)),
-    ("u5", "p5", 40.0, "USD", "M3", "00", 2, 1, "T4", datetime(2026, 1, 1, 14, 0, 0)),
+    ("u1", "p1", Decimal("100.57"), "USD", "M1", "00", 2, 1, "T1", datetime(2026, 1, 1, 10, 0, 0)),
+    ("u2", "p2", Decimal("50.00"), "EUR", "M2", "00", 2, 1, "T2", datetime(2026, 1, 1, 11, 0, 0)),
+    ("u3", "p3", Decimal("20.00"), "USD", "M1", "05", 2, 1, "T1", datetime(2026, 1, 1, 12, 0, 0)),
+    ("u4", "p4", Decimal("30.00"), "USD", "M2", "00", 4, 1, "T3", datetime(2026, 1, 1, 13, 0, 0)),
+    ("u5", "p5", Decimal("40.00"), "USD", "M3", "00", 2, 1, "T4", datetime(2026, 1, 1, 14, 0, 0)),
 ]
 
 CUSTOMERS_SCHEMA = StructType(

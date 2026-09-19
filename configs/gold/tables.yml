@@ -23,7 +23,7 @@ tables:
         tags: []
       - name: amount
         description: Transaction amount in its original currency.
-        datatype: double
+        datatype: decimal(18,2)
         tags: []
       - name: currency
         description: ISO currency code of the transaction amount.
@@ -31,7 +31,7 @@ tables:
         tags: []
       - name: amount_eur
         description: Transaction amount converted to EUR using the latest Frankfurter rate at run time.
-        datatype: double
+        datatype: decimal(18,2)
         tags: []
       - name: operation_result_code
         description: Result code returned by the payment provider for the operation.
@@ -53,11 +53,7 @@ tables:
         description: Identifier of the terminal where the transaction occurred.
         datatype: string
         tags: []
-      - name: timestamp
+      - name: transaction_timestamp
         description: Timestamp when the operation occurred at the source.
         datatype: timestamp
-        tags: []
-      - name: country
-        description: Country associated with the merchant's customer record.
-        datatype: string
         tags: []

@@ -51,7 +51,7 @@ tables:
         tags: []
       - name: amount
         description: Transaction amount.
-        datatype: double
+        datatype: decimal(18,2)
         tags: []
       - name: currency
         description: ISO currency code of the transaction amount.
