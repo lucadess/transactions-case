@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"uuid": "u1", "payment_id": "p1", "amount": 100.0, "currency": "USD", "merchant_id": "M1", "operation_result_code": "00", "operation_status_code": 2, "provider_code": 1, "terminal_id": "T1", "timestamp": "2026-01-01T10:00:00"},
+    {"uuid": "u2", "payment_id": "p2", "amount": 50.0, "currency": "EUR", "merchant_id": "M2", "operation_result_code": "00", "operation_status_code": 2, "provider_code": 1, "terminal_id": "T2", "timestamp": "2026-01-01T11:00:00"}
+  ],
+  "limit": 2,
+  "offset": 0,
+  "total": 2
+}
